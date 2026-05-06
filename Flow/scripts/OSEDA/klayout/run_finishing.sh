@@ -79,18 +79,18 @@ run_cmd() {
 
 
 def_to_gds() {
-    run_cmd "mkdir -p out"
+    run_cmd "mkdir -p ../../../../PlaceAndRoute/"
     run_cmd "echo [INFO][KLayout] Running LEF/DEF to stream"
     run_cmd "klayout -zz \
         -rd gds_allow_empty=True \
         -rd design_name=\"$TOP_DESIGN\" \
-        -rd in_def=\"../openroad/out/${PROJ_NAME}.def\" \
+        -rd in_def=\"../../../../PlaceAndRoute/${PROJ_NAME}.def\" \
         -rd layer_map=\"$KLAYOUT_PATH/tech/sg13g2.map\" \
         -rd lef_files=\"$lef_files\" \
         -rd gds_files=\"$gds_files\" \
-        -rd out_file=\"out/${PROJ_NAME}.gds.gz\" \
+        -rd out_file=\"../../../../PlaceAndRoute/${PROJ_NAME}.gds.gz\" \
         -rm scripts/def2stream.py" \
-        > out/def2stream.log
+        > ../../../../PlaceAndRoute/def2stream.log
 }
 
 
