@@ -10,9 +10,9 @@
 
 # set global variables
 set sv_flist   "src/croc.flist"
-set out_dir    out
+set out_dir    "../../../../synthesis"
 set tmp_dir    tmp
-set rep_dir    reports
+set rep_dir    "../../../../synthesis"
 
 # global variables imported from environment variables (if set)
 # define with scheme: <local-var> { <ENVVAR>  <fallback> }

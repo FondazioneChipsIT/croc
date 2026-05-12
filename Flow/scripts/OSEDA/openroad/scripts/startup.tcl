@@ -11,18 +11,20 @@
 set proj_name  [expr {[info exists ::env(PROJ_NAME)]  ? $::env(PROJ_NAME)  : "croc"}]
 set top_design [expr {[info exists ::env(TOP_DESIGN)] ? $::env(TOP_DESIGN) : "croc_chip"}]
 
-set netlist "../../../../../synthesis/netlist/${proj_name}_yosys.v"
+set netlist "../../../../synthesis/${proj_name}_yosys.v"
 set report_dir reports
 set save_dir   save
-set out_dir    "../../../../../PlaceAndRoute/"
+set out_dir    "../../../../PlaceAndRoute/"
+set verif_dir  "../../../../verification"
 
 file mkdir $report_dir
 file mkdir $save_dir
 file mkdir $out_dir
+file mkdir $verif_dir
 
 utl::report "Setting up project $proj_name"
 utl::report " - Netlist: $netlist"
-utl::report " - Netlist: $proj_name"
+utl::report " - Project name: $proj_name"
 utl::report " - Top design: $top_design"
 utl::report " - Report directory: $report_dir"
 utl::report " - Save directory: $save_dir"

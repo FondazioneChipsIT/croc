@@ -158,6 +158,10 @@ while [[ $# -gt 0 ]]; do
             run_openroad_script "scripts/05_finishing.tcl"
             shift
             ;;
+        --sta)
+            run_openroad_script "scripts/06_sta.tcl"
+            shift
+            ;;
         --all)
             run_openroad_script "scripts/01_floorplan.tcl"
             run_openroad_script "scripts/02_placement.tcl"
