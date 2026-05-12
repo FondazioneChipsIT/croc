@@ -15,23 +15,17 @@
 source scripts/startup.tcl
 
 # Load checkpoint from previous stage
-#load_checkpoint 05_${proj_name}.final
-
-# Set layers used for estimate_parasitics
-#setDefaultParasitics
-#set_dont_use $dont_use_cells
-
+load_checkpoint 05_${proj_name}.final
 
 utl::report "###############################################################################"
 utl::report "# Stage 06: Static Timing Analysis"
 utl::report "###############################################################################"
 
-read_verilog $netlist
-link_design $top_design
 read_sdf -corner tt ${out_dir}/${proj_name}.sdf
 read_spef -corner tt ${out_dir}/${proj_name}.spef  
 read_sdc src/constraints.sdc
-report_checks -path_delay max > ${verif_dir}/timing.rpt
+report_metrics "06_${proj_name}.sta"
+exec cp ${report_dir}/06_${proj_name}.sta.rpt ${verif_dir}/sta.rpt
 
 utl::report "###############################################################################"
 utl::report "# Stage 06 complete: Static Timing Analysis performed"

@@ -168,6 +168,7 @@ while [[ $# -gt 0 ]]; do
             run_openroad_script "scripts/03_cts.tcl"
             run_openroad_script "scripts/04_routing.tcl"
             run_openroad_script "scripts/05_finishing.tcl"
+            run_openroad_script "scripts/06_sta.tcl"
             shift
             ;;
         --run)
