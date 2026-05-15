@@ -37,7 +37,7 @@
 //   Do not route CV-X-IF through the SoC hierarchy; the types are CVE2-specific and the tight
 //   coupling belongs at the core boundary, not in user_domain.
 
-module core_wrap import croc_pkg::*; #() (
+module core_wrap #() (
   input  logic clk_i,
   input  logic rst_ni,
   input  logic test_enable_i,
@@ -84,9 +84,9 @@ module core_wrap import croc_pkg::*; #() (
   // Cores that hardcode these addresses internally do not need these params.
   // Remove the localparams and connections below when replacing with such a core.
   // Make sure to check PeriphDebug's start_addr in croc_pkg and adjust if necesary.
-  localparam bit [31:0] DebugAddrOffset       = get_periph_start_addr(PeriphDebug);
-  localparam bit [31:0] DebugHaltAddress      = DebugAddrOffset + dm::HaltAddress[31:0];
-  localparam bit [31:0] DebugExceptionAddress = DebugAddrOffset + dm::ExceptionAddress[31:0];
+  localparam bit [31:0] DebugAddrOffset       = 32'h0000_0000;
+  localparam bit [31:0] DebugHaltAddress      = DebugAddrOffset + 32'h800;
+  localparam bit [31:0] DebugExceptionAddress = DebugAddrOffset + 32'h816;
 
   // CVE2 ignores the lowest 8 bits of boot_addr internally; mask here to avoid confusion.
   // You may want to remove this masking when using a core that uses the full boot address.
@@ -108,7 +108,7 @@ module core_wrap import croc_pkg::*; #() (
 `else
   cve2_core #(
 `endif
-    .PMPEnable        ( CorePMPEnable       ),
+    .PMPEnable        ( 0                   ),
     .PMPGranularity   ( 0                   ),
     .PMPNumRegions    ( 4                   ),
     .MHPMCounterNum   ( 0                   ),

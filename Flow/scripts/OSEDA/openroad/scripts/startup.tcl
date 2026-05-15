@@ -8,8 +8,8 @@
 ###############################################################################
 # Setup
 ###############################################################################
-set proj_name  [expr {[info exists ::env(PROJ_NAME)]  ? $::env(PROJ_NAME)  : "croc"}]
-set top_design [expr {[info exists ::env(TOP_DESIGN)] ? $::env(TOP_DESIGN) : "croc_chip"}]
+set proj_name  [expr {[info exists ::env(PROJ_NAME)]  ? $::env(PROJ_NAME)  : "cve2"}]
+set top_design [expr {[info exists ::env(TOP_DESIGN)] ? $::env(TOP_DESIGN) : "core_wrap"}]
 
 set netlist "../../../../synthesis/${proj_name}_yosys.v"
 set report_dir reports

@@ -67,8 +67,8 @@ utl::report "###################################################################
 # The sealring is added after OpenROAD
 # hence the OR die area is the final chip size minus the sealring thickness on each side
 
-set chipH    1916; # OR die height (top to bottom)
-set chipW    1916; # OR die width (left to right)
+set chipH    800; # OR die height (top to bottom)
+set chipW    800; # OR die width (left to right)
 set padD      180; # pad depth (edge to core)
 set padW       80; # pad width (beachfront)
 set padBond    70; # bonding pad size
@@ -80,22 +80,8 @@ set coreMargin [expr {$padD + $padBond + $powerRing}];
 utl::report "Initialize Chip"
 # coordinates are lower-left x and y, upper-right x and y
 initialize_floorplan -die_area "0 0 $chipW $chipH" \
-                     -core_area "$coreMargin $coreMargin [expr $chipW-$coreMargin] [expr $chipH-$coreMargin]" \
+                     -core_area "[expr $powerRing/2] [expr $powerRing/2] [expr $chipW-$powerRing/2] [expr $chipH-$powerRing/2]" \
                      -site "CoreSite"
-
-
-utl::report "###############################################################################"
-utl::report "# 01-03: Padring"
-utl::report "###############################################################################"
-source src/padring.tcl
-
-
-##########################################################################
-# RAM sizes
-##########################################################################
-set RamMaster256x64   [[ord::get_db] findMaster "RM_IHPSG13_1P_256x64_c2_bm_bist"]
-set RamSize256x64_W   [ord::dbu_to_microns [$RamMaster256x64 getWidth]]
-set RamSize256x64_H   [ord::dbu_to_microns [$RamMaster256x64 getHeight]]
 
 
 ##########################################################################
@@ -120,42 +106,13 @@ make_tracks
 set siteHeight        [ord::dbu_to_microns [[dpl::get_row_site] getHeight]]
 
 
-utl::report "###############################################################################"
-utl::report "# 01-04: Macro Placement"
-utl::report "###############################################################################"
-# Paths to the instances of macros
-utl::report "Macro Names"
-source src/instances.tcl
-
-# Placing macros
-# use these for macro placement
-set floorPaddingX      12.0
-set floorPaddingY      12.0
-set floor_leftX       [expr $core_leftX + $floorPaddingX]
-set floor_bottomY     [expr $core_bottomY + $floorPaddingY]
-set floor_rightX      [expr $core_rightX - $floorPaddingX]
-set floor_topY        [expr $core_topY - $floorPaddingY]
-set floor_midpointX   [expr $floor_leftX + ($floor_rightX - $floor_leftX)/2]
-set floor_midpointY   [expr $floor_bottomY + ($floor_topY - $floor_bottomY)/2]
-
-utl::report "Place Macros"
-
-# Bank0
-set X [expr $floor_midpointX - $RamSize256x64_W/2]
-set Y [expr $floor_topY - $RamSize256x64_H]
-placeInstance $bank0_sram0 $X $Y R0
-
-# Bank1
-set X [expr $X]
-set Y [expr $floor_bottomY]
-placeInstance $bank1_sram0 $X $Y MX
-
 # defined in init_tech.tcl
 insertTapCells
 
 cut_rows -halo_width_x 1 -halo_width_y 1
 global_connect
 
+place_pins -hor_layers Metal5 -ver_layers Metal4 -min_distance 7 -min_distance_in_tracks -corner_avoidance 60 -exclude top:* -exclude bottom:* -exclude left:*
 
 utl::report "###############################################################################"
 utl::report "# 01-04: Power Grid"

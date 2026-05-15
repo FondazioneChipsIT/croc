@@ -16,8 +16,8 @@ set rep_dir    "../../../../synthesis"
 
 # global variables imported from environment variables (if set)
 # define with scheme: <local-var> { <ENVVAR>  <fallback> }
-set proj_name  [expr {[info exists ::env(PROJ_NAME)]  ? $::env(PROJ_NAME)  : "croc"}]
-set top_design [expr {[info exists ::env(TOP_DESIGN)] ? $::env(TOP_DESIGN) : "croc_chip"}]
+set proj_name  [expr {[info exists ::env(PROJ_NAME)]  ? $::env(PROJ_NAME)  : "cve2"}]
+set top_design [expr {[info exists ::env(TOP_DESIGN)] ? $::env(TOP_DESIGN) : "core_wrap"}]
 
 file mkdir $out_dir
 file mkdir $tmp_dir
