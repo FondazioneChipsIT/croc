@@ -1,0 +1,434 @@
+meta:
+  version: 3
+  flow: Chip
+  substituting_steps:
+
+    # Magic reports some overlaps which can be ignored
+    Checker.IllegalOverlap: null
+
+    # Disable KLayout DRC
+    #KLayout.DRC: null
+    #Checker.KLayoutDRC: null
+
+    # Disable magic DRC
+    #Magic.DRC: null
+    #Checker.MagicDRC: null
+
+    # Disable KLayout antenna check
+    #KLayout.Antenna: null
+    #Checker.KLayoutAntenna: null
+
+    # Disable KLayout density check
+    #KLayout.Density: null
+    #Checker.KLayoutDensity: null
+    
+    # Save time
+    #OpenROAD.IRDropReport: null
+    #KLayout.XOR: null
+    #Netgen.LVS: null
+    #Checker.LVS: null
+
+    # Use Magic.Filler instead of KLayout.Filler
+    # This can help in some cases where the target
+    # density cannot be met using KLayout.
+    #KLayout.Filler: Magic.Filler
+
+PDK_ROOT: dir::../OSEDA/ihp13/pdk
+
+PDK: ihp-sg13g2
+
+DESIGN_NAME: croc_chip
+VERILOG_INCLUDE_DIRS:
+- dir::../../../rtl/apb/include
+- dir::../../../rtl/common_cells/include
+- dir::../../../rtl/cve2/include
+- dir::../../../rtl/idma/include
+- dir::../../../rtl/obi/include
+VERILOG_FILES:
+- dir::../../../rtl/common_cells/binary_to_gray.sv
+- dir::../../../rtl/common_cells/cb_filter_pkg.sv
+- dir::../../../rtl/common_cells/cc_onehot.sv
+- dir::../../../rtl/common_cells/cdc_reset_ctrlr_pkg.sv
+- dir::../../../rtl/common_cells/cf_math_pkg.sv
+- dir::../../../rtl/common_cells/clk_int_div.sv
+- dir::../../../rtl/common_cells/credit_counter.sv
+- dir::../../../rtl/common_cells/delta_counter.sv
+- dir::../../../rtl/common_cells/ecc_pkg.sv
+- dir::../../../rtl/common_cells/edge_propagator_tx.sv
+- dir::../../../rtl/common_cells/exp_backoff.sv
+- dir::../../../rtl/common_cells/fifo_v3.sv
+- dir::../../../rtl/common_cells/gray_to_binary.sv
+- dir::../../../rtl/common_cells/heaviside.sv
+- dir::../../../rtl/common_cells/isochronous_4phase_handshake.sv
+- dir::../../../rtl/common_cells/isochronous_spill_register.sv
+- dir::../../../rtl/common_cells/lfsr.sv
+- dir::../../../rtl/common_cells/lfsr_16bit.sv
+- dir::../../../rtl/common_cells/lfsr_8bit.sv
+- dir::../../../rtl/common_cells/lossy_valid_to_stream.sv
+- dir::../../../rtl/common_cells/mv_filter.sv
+- dir::../../../rtl/common_cells/onehot_to_bin.sv
+- dir::../../../rtl/common_cells/plru_tree.sv
+- dir::../../../rtl/common_cells/passthrough_stream_fifo.sv
+- dir::../../../rtl/common_cells/popcount.sv
+- dir::../../../rtl/common_cells/ring_buffer.sv
+- dir::../../../rtl/common_cells/rr_arb_tree.sv
+- dir::../../../rtl/common_cells/rstgen_bypass.sv
+- dir::../../../rtl/common_cells/serial_deglitch.sv
+- dir::../../../rtl/common_cells/shift_reg.sv
+- dir::../../../rtl/common_cells/shift_reg_gated.sv
+- dir::../../../rtl/common_cells/spill_register_flushable.sv
+- dir::../../../rtl/common_cells/stream_demux.sv
+- dir::../../../rtl/common_cells/stream_filter.sv
+- dir::../../../rtl/common_cells/stream_fork.sv
+- dir::../../../rtl/common_cells/stream_intf.sv
+- dir::../../../rtl/common_cells/stream_join_dynamic.sv
+- dir::../../../rtl/common_cells/stream_mux.sv
+- dir::../../../rtl/common_cells/stream_throttle.sv
+- dir::../../../rtl/common_cells/sub_per_hash.sv
+- dir::../../../rtl/common_cells/sync.sv
+- dir::../../../rtl/common_cells/sync_wedge.sv
+- dir::../../../rtl/common_cells/unread.sv
+- dir::../../../rtl/common_cells/read.sv
+- dir::../../../rtl/common_cells/addr_decode_dync.sv
+- dir::../../../rtl/common_cells/boxcar.sv
+- dir::../../../rtl/common_cells/cdc_2phase.sv
+- dir::../../../rtl/common_cells/cdc_4phase.sv
+- dir::../../../rtl/common_cells/clk_int_div_static.sv
+- dir::../../../rtl/common_cells/trip_counter.sv
+- dir::../../../rtl/common_cells/addr_decode.sv
+- dir::../../../rtl/common_cells/addr_decode_napot.sv
+- dir::../../../rtl/common_cells/multiaddr_decode.sv
+- dir::../../../rtl/common_cells/cb_filter.sv
+- dir::../../../rtl/common_cells/cdc_fifo_2phase.sv
+- dir::../../../rtl/common_cells/clk_mux_glitch_free.sv
+- dir::../../../rtl/common_cells/counter.sv
+- dir::../../../rtl/common_cells/ecc_decode.sv
+- dir::../../../rtl/common_cells/ecc_encode.sv
+- dir::../../../rtl/common_cells/edge_detect.sv
+- dir::../../../rtl/common_cells/lzc.sv
+- dir::../../../rtl/common_cells/max_counter.sv
+- dir::../../../rtl/common_cells/rstgen.sv
+- dir::../../../rtl/common_cells/spill_register.sv
+- dir::../../../rtl/common_cells/stream_delay.sv
+- dir::../../../rtl/common_cells/stream_fifo.sv
+- dir::../../../rtl/common_cells/stream_fork_dynamic.sv
+- dir::../../../rtl/common_cells/stream_join.sv
+- dir::../../../rtl/common_cells/cdc_reset_ctrlr.sv
+- dir::../../../rtl/common_cells/cdc_fifo_gray.sv
+- dir::../../../rtl/common_cells/fall_through_register.sv
+- dir::../../../rtl/common_cells/id_queue.sv
+- dir::../../../rtl/common_cells/stream_to_mem.sv
+- dir::../../../rtl/common_cells/stream_arbiter_flushable.sv
+- dir::../../../rtl/common_cells/stream_fifo_optimal_wrap.sv
+- dir::../../../rtl/common_cells/stream_register.sv
+- dir::../../../rtl/common_cells/stream_xbar.sv
+- dir::../../../rtl/common_cells/cdc_fifo_gray_clearable.sv
+- dir::../../../rtl/common_cells/cdc_2phase_clearable.sv
+- dir::../../../rtl/common_cells/mem_to_banks_detailed.sv
+- dir::../../../rtl/common_cells/stream_arbiter.sv
+- dir::../../../rtl/common_cells/stream_omega_net.sv
+- dir::../../../rtl/common_cells/mem_to_banks.sv
+- dir::../../../rtl/obi/obi_pkg.sv
+- dir::../../../rtl/obi/obi_intf.sv
+- dir::../../../rtl/obi/obi_rready_converter.sv
+- dir::../../../rtl/obi/apb_to_obi.sv
+- dir::../../../rtl/obi/obi_to_apb.sv
+- dir::../../../rtl/obi/obi_atop_resolver.sv
+- dir::../../../rtl/obi/obi_cut.sv
+- dir::../../../rtl/obi/obi_demux.sv
+- dir::../../../rtl/obi/obi_err_sbr.sv
+- dir::../../../rtl/obi/obi_mux.sv
+- dir::../../../rtl/obi/obi_sram_shim.sv
+- dir::../../../rtl/obi/obi_xbar.sv
+- dir::../../../rtl/apb/apb_pkg.sv
+- dir::../../../rtl/cve2/cve2_pkg.sv
+- dir::../../../rtl/cve2/cve2_alu.sv
+- dir::../../../rtl/cve2/cve2_branch_predict.sv
+- dir::../../../rtl/cve2/cve2_compressed_decoder.sv
+- dir::../../../rtl/cve2/cve2_controller.sv
+- dir::../../../rtl/cve2/cve2_counter.sv
+- dir::../../../rtl/cve2/cve2_csr.sv
+- dir::../../../rtl/cve2/cve2_decoder.sv
+- dir::../../../rtl/cve2/cve2_fetch_fifo.sv
+- dir::../../../rtl/cve2/cve2_load_store_unit.sv
+- dir::../../../rtl/cve2/cve2_multdiv_fast.sv
+- dir::../../../rtl/cve2/cve2_multdiv_slow.sv
+- dir::../../../rtl/cve2/cve2_pmp.sv
+- dir::../../../rtl/cve2/cve2_register_file_ff.sv
+- dir::../../../rtl/cve2/cve2_wb.sv
+- dir::../../../rtl/cve2/cve2_cs_registers.sv
+- dir::../../../rtl/cve2/cve2_ex_block.sv
+- dir::../../../rtl/cve2/cve2_id_stage.sv
+- dir::../../../rtl/cve2/cve2_prefetch_buffer.sv
+- dir::../../../rtl/cve2/cve2_if_stage.sv
+- dir::../../../rtl/cve2/cve2_core.sv
+- dir::../../../rtl/idma/idma_pkg.sv
+- dir::../../../rtl/idma/idma_channel_coupler.sv
+- dir::../../../rtl/idma/idma_dataflow_element.sv
+- dir::../../../rtl/idma/idma_obi_read.sv
+- dir::../../../rtl/idma/idma_obi_write.sv
+- dir::../../../rtl/idma/idma_nd_midend.sv
+- dir::../../../rtl/idma/idma_transfer_id_gen.sv
+- dir::../../../rtl/idma/idma_legalizer_page_splitter.sv
+- dir::../../../rtl/idma/idma_transport_layer_rw_obi.sv
+- dir::../../../rtl/idma/idma_legalizer_rw_obi.sv
+- dir::../../../rtl/idma/idma_backend_rw_obi.sv
+- dir::../../../rtl/idma/croc_idma.sv
+- dir::../../../rtl/obi_uart/obi_uart_pkg.sv
+- dir::../../../rtl/obi_uart/obi_uart_baudgen.sv
+- dir::../../../rtl/obi_uart/obi_uart_interrupts.sv
+- dir::../../../rtl/obi_uart/obi_uart_modem.sv
+- dir::../../../rtl/obi_uart/obi_uart_rx.sv
+- dir::../../../rtl/obi_uart/obi_uart_tx.sv
+- dir::../../../rtl/obi_uart/obi_uart_register.sv
+- dir::../../../rtl/obi_uart/obi_uart.sv
+- dir::../../../rtl/riscv-dbg/dm_pkg.sv
+- dir::../../../rtl/riscv-dbg/debug_rom/debug_rom.sv
+- dir::../../../rtl/riscv-dbg/debug_rom/debug_rom_one_scratch.sv
+- dir::../../../rtl/riscv-dbg/dm_csrs.sv
+- dir::../../../rtl/riscv-dbg/dm_mem.sv
+- dir::../../../rtl/riscv-dbg/dmi_cdc.sv
+- dir::../../../rtl/riscv-dbg/dmi_jtag_tap.sv
+- dir::../../../rtl/riscv-dbg/dm_sba.sv
+- dir::../../../rtl/riscv-dbg/dm_top.sv
+- dir::../../../rtl/riscv-dbg/dmi_jtag.sv
+- dir::../../../rtl/riscv-dbg/dm_obi_top.sv
+- dir::../OSEDA/ihp13/tc_clk.sv
+- dir::../OSEDA/ihp13/tc_sram_impl.sv
+- dir::../../../rtl/croc_pkg.sv
+- dir::../../../rtl/user_pkg.sv
+- dir::../../../rtl/soc_ctrl/soc_ctrl_regs_pkg.sv
+- dir::../../../rtl/gpio/gpio_reg_pkg.sv
+- dir::../../../rtl/clint/clint_reg_pkg.sv
+- dir::../../../rtl/obi_timer/obi_timer_reg_pkg.sv
+- dir::../../../rtl/core_wrap.sv
+- dir::../../../rtl/bootrom/bootrom.sv
+- dir::../../../rtl/soc_ctrl/soc_ctrl_regs.sv
+- dir::../../../rtl/gpio/gpio_reg_top.sv
+- dir::../../../rtl/gpio/gpio.sv
+- dir::../../../rtl/clint/clint.sv
+- dir::../../../rtl/obi_timer/obi_timer.sv
+- dir::../../../rtl/croc_domain.sv
+- dir::../../../rtl/user_domain.sv
+- dir::../../../rtl/croc_soc.sv
+- dir::../../../rtl/croc_chip.sv
+
+LINTER_VLT: dir::./verilator_cfg.vlt
+
+VERILOG_DEFINES: [FUNCTIONAL]
+
+# Enable plugin for better SystemVerilog support
+USE_SLANG: True
+SYNTH_KEEP_HIERARCHY_MODULES: [
+    'croc_soc$*',
+    'croc_domain$*',
+    'user_domain$*', 
+    'core_wrap$*', 
+    'cve2_register_file_ff$*', 
+    'cve2_cs_registers$*', 
+    'dmi_jtag$*',
+    'dm_top$*',
+    'gpio$*',
+    'clint$*',
+    'bootrom$*',
+    'obi_timer$*',
+    'croc_idma$*',
+    'obi_uart$*',
+    'soc_ctrl_regs$*',
+    'tc_clk*$*',
+    'tc_sram_impl$*',
+    'cdc_reset*$*',
+    'cdc*phase_*$*',
+    'cdc*_src*$*',
+    'cdc*_dst*$*',
+    'sync$*'
+]
+
+SLANG_ARGUMENTS: ['--compat-mode','--keep-hierarchy','--allow-use-before-declare','--ignore-unknown-modules']
+
+# Slightly smaller file sizes
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+
+# Specify the pad instances for the padring
+PAD_SOUTH: [
+    "pad_vssio1",
+    "pad_vddio1",
+    "pad_gpio0_io",
+    "pad_gpio1_io",
+    "pad_gpio2_io",
+    "pad_gpio3_io",
+    "pad_gpio4_io",
+    "pad_gpio5_io",
+    "pad_gpio6_io",
+    "pad_gpio7_io",
+    "pad_gpio8_io",
+    "pad_gpio9_io",
+    "pad_gpio10_io",
+    "pad_gpio11_io",
+    "pad_vss1",
+    "pad_vdd1"
+]
+
+PAD_EAST: [
+    "pad_vssio2",
+    "pad_vddio2",
+    "pad_gpio12_io",
+    "pad_gpio13_io",
+    "pad_gpio14_io",
+    "pad_gpio15_io",
+    "pad_gpio16_io",
+    "pad_gpio17_io",
+    "pad_gpio18_io",
+    "pad_gpio19_io",
+    "pad_gpio20_io",
+    "pad_gpio21_io",
+    "pad_gpio22_io",
+    "pad_gpio23_io",
+    "pad_vss2",
+    "pad_vdd2"
+]
+
+PAD_NORTH: [
+    "pad_vssio3",
+    "pad_vddio3",
+    "pad_gpio24_io",
+    "pad_gpio25_io",
+    "pad_gpio26_io",
+    "pad_gpio27_io",
+    "pad_gpio28_io",
+    "pad_gpio29_io",
+    "pad_gpio30_io",
+    "pad_gpio31_io",
+    "pad_unused0_o",
+    "pad_unused1_o",
+    "pad_unused2_o",
+    "pad_unused3_o",
+    "pad_vss3",
+    "pad_vdd3"
+]
+
+PAD_WEST: [
+    "pad_vssio0",
+    "pad_vddio0",
+    "pad_uart_rx_i",
+    "pad_uart_tx_o",
+    "pad_testmode_i",
+    "pad_status_o",
+    "pad_clk_i",
+    "pad_ref_clk_i",
+    "pad_rst_ni",
+    "pad_jtag_tck_i",
+    "pad_jtag_trst_ni",
+    "pad_jtag_tms_i",
+    "pad_jtag_tdi_i",
+    "pad_jtag_tdo_o",
+    "pad_vss0",
+    "pad_vdd0"
+]
+
+
+# SDC files
+PNR_SDC_FILE: dir::./src/constraints_librelane.sdc
+SIGNOFF_SDC_FILE: dir::./src/constraints_librelane.sdc
+FALLBACK_SDC: dir::./src/constraints_librelane.sdc
+
+# Power / ground nets
+VDD_NETS:
+- VDD
+GND_NETS:
+- VSS
+
+# Clock
+CLOCK_PORT: [clk_i, ref_clk_i, jtag_tck_i]
+CLOCK_NET: [pad_clk_i/p2c, pad_ref_clk_i/p2c, pad_jtag_tck_i/p2c]
+
+CLOCK_PERIOD: 10
+
+# Floorplanning
+FP_SIZING: absolute
+# 2000umx2000um including 42um
+# for the sealring on all sides
+DIE_AREA: [0, 0, 2000, 2000]
+CORE_AREA: [292, 292, 1708, 1708]
+
+# Increase for more logic
+# on your die
+PL_TARGET_DENSITY_PCT: 55
+GRT_ALLOW_CONGESTION: true
+
+# PDN
+PDN_CORE_RING: True
+
+# Override bondpad name
+PAD_BONDPAD_NAME: bondpad_70x70_novias
+
+# Bondpad is not yet included in the PDK
+EXTRA_GDS:
+- dir::./ip/bondpad_70x70_novias/gds/bondpad_70x70_novias.gds
+
+EXTRA_LEFS:
+- dir::./ip/bondpad_70x70_novias/lef/bondpad_70x70_novias.lef
+
+IGNORE_DISCONNECTED_MODULES:
+- bondpad_70x70_novias
+
+# Maximum metal width without slotting: 30um
+PDN_CORE_RING_VWIDTH: 15
+PDN_CORE_RING_HWIDTH: 15
+# Ensure minimum spacing for long metals
+PDN_CORE_RING_VSPACING: 5
+PDN_CORE_RING_HSPACING: 5
+
+PDN_CORE_RING_CONNECT_TO_PADS: True
+PDN_ENABLE_PINS: False
+
+# Because we have multiple power pads for one power domain
+MAGIC_EXT_UNIQUE: notopports
+
+MACROS:
+  RM_IHPSG13_1P_256x64_c2_bm_bist:
+    gds:
+      - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_256x64_c2_bm_bist.gds
+    lef:
+      - pdk_dir::libs.ref/sg13g2_sram/lef/RM_IHPSG13_1P_256x64_c2_bm_bist.lef
+    vh:
+      - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_1P_256x64_c2_bm_bist.v
+      - pdk_dir::libs.ref/sg13g2_sram/verilog/RM_IHPSG13_1P_core_behavioral_bm_bist.v
+    lib:
+      "*_typ_1p20V_25C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_256x64_c2_bm_bist_typ_1p20V_25C.lib
+      "*_fast_1p32V_m40C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_256x64_c2_bm_bist_fast_1p32V_m55C.lib
+      "*_slow_1p08V_125C":
+        - pdk_dir::libs.ref/sg13g2_sram/lib/RM_IHPSG13_1P_256x64_c2_bm_bist_slow_1p08V_125C.lib
+    instances:
+      # Make sure to specify the SRAMs in pdn_cfg.tcl
+      i_croc_soc/i_croc/gen_sram_bank[0].i_sram/gen_512x32xBx1.i_cut:
+        location: [600, 340]
+        orientation: S
+      i_croc_soc/i_croc/gen_sram_bank[1].i_sram/gen_512x32xBx1.i_cut:
+        location: [600, 1530]
+        orientation: N
+
+# This is an alternative method compared to
+# specifying the power connections in the RTL
+PDN_MACRO_CONNECTIONS:
+- i_croc_soc/i_croc/gen_sram_bank\\\[0\\].i_sram/gen_512x32xBx1.i_cut VDD VSS VDDARRAY! VSS!
+- i_croc_soc/i_croc/gen_sram_bank\\\[0\\].i_sram/gen_512x32xBx1.i_cut VDD VSS VDD! VSS!
+- i_croc_soc/i_croc/gen_sram_bank\\\[1\\].i_sram/gen_512x32xBx1.i_cut VDD VSS VDDARRAY! VSS!
+- i_croc_soc/i_croc/gen_sram_bank\\\[1\\].i_sram/gen_512x32xBx1.i_cut VDD VSS VDD! VSS!
+
+# Custom PDN config to connect to SRAMs
+PDN_CFG: dir::pdn_cfg.tcl
+
+KLAYOUT_SEALRING_SCRIPT: dir::sealring.py
+
+MAGIC_GDS_FLATGLOB:
+ # For DRC of SRAM macros
+ - "lvsres_*"
+ - "VIA_M1_*"
+ - "VIA_M2_*"
+ - "*_CELL_CORNER"
+ - "RSC_*"
+ - "*_CELL_SUB"
+
