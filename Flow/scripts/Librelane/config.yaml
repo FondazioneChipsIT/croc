@@ -1,0 +1,201 @@
+meta:
+  version: 3
+  flow: Classic
+  substituting_steps:
+
+    # Magic reports some overlaps which can be ignored
+    Checker.IllegalOverlap: null
+
+#"+OpenROAD.DetailedRouting": "OpenROAD.RepairAntennas"
+#"+OpenROAD.RepairAntennas-1": "OpenROAD.DetailedRouting"
+
+PDK_ROOT: dir::../OSEDA/ihp13/pdk
+
+PDK: ihp-sg13g2
+
+DESIGN_NAME: core_wrap
+VERILOG_INCLUDE_DIRS:
+- dir::../../../rtl/apb/include
+- dir::../../../rtl/common_cells/include
+- dir::../../../rtl/cve2/include
+VERILOG_FILES:
+- dir::../../../rtl/common_cells/binary_to_gray.sv
+- dir::../../../rtl/common_cells/cb_filter_pkg.sv
+- dir::../../../rtl/common_cells/cc_onehot.sv
+- dir::../../../rtl/common_cells/cdc_reset_ctrlr_pkg.sv
+- dir::../../../rtl/common_cells/cf_math_pkg.sv
+- dir::../../../rtl/common_cells/clk_int_div.sv
+- dir::../../../rtl/common_cells/credit_counter.sv
+- dir::../../../rtl/common_cells/delta_counter.sv
+- dir::../../../rtl/common_cells/ecc_pkg.sv
+- dir::../../../rtl/common_cells/edge_propagator_tx.sv
+- dir::../../../rtl/common_cells/exp_backoff.sv
+- dir::../../../rtl/common_cells/fifo_v3.sv
+- dir::../../../rtl/common_cells/gray_to_binary.sv
+- dir::../../../rtl/common_cells/heaviside.sv
+- dir::../../../rtl/common_cells/isochronous_4phase_handshake.sv
+- dir::../../../rtl/common_cells/isochronous_spill_register.sv
+- dir::../../../rtl/common_cells/lfsr.sv
+- dir::../../../rtl/common_cells/lfsr_16bit.sv
+- dir::../../../rtl/common_cells/lfsr_8bit.sv
+- dir::../../../rtl/common_cells/lossy_valid_to_stream.sv
+- dir::../../../rtl/common_cells/mv_filter.sv
+- dir::../../../rtl/common_cells/onehot_to_bin.sv
+- dir::../../../rtl/common_cells/plru_tree.sv
+- dir::../../../rtl/common_cells/passthrough_stream_fifo.sv
+- dir::../../../rtl/common_cells/popcount.sv
+- dir::../../../rtl/common_cells/ring_buffer.sv
+- dir::../../../rtl/common_cells/rr_arb_tree.sv
+- dir::../../../rtl/common_cells/rstgen_bypass.sv
+- dir::../../../rtl/common_cells/serial_deglitch.sv
+- dir::../../../rtl/common_cells/shift_reg.sv
+- dir::../../../rtl/common_cells/shift_reg_gated.sv
+- dir::../../../rtl/common_cells/spill_register_flushable.sv
+- dir::../../../rtl/common_cells/stream_demux.sv
+- dir::../../../rtl/common_cells/stream_filter.sv
+- dir::../../../rtl/common_cells/stream_fork.sv
+- dir::../../../rtl/common_cells/stream_intf.sv
+- dir::../../../rtl/common_cells/stream_join_dynamic.sv
+- dir::../../../rtl/common_cells/stream_mux.sv
+- dir::../../../rtl/common_cells/stream_throttle.sv
+- dir::../../../rtl/common_cells/sub_per_hash.sv
+- dir::../../../rtl/common_cells/sync.sv
+- dir::../../../rtl/common_cells/sync_wedge.sv
+- dir::../../../rtl/common_cells/unread.sv
+- dir::../../../rtl/common_cells/read.sv
+- dir::../../../rtl/common_cells/addr_decode_dync.sv
+- dir::../../../rtl/common_cells/boxcar.sv
+- dir::../../../rtl/common_cells/cdc_2phase.sv
+- dir::../../../rtl/common_cells/cdc_4phase.sv
+- dir::../../../rtl/common_cells/clk_int_div_static.sv
+- dir::../../../rtl/common_cells/trip_counter.sv
+- dir::../../../rtl/common_cells/addr_decode.sv
+- dir::../../../rtl/common_cells/addr_decode_napot.sv
+- dir::../../../rtl/common_cells/multiaddr_decode.sv
+- dir::../../../rtl/common_cells/cb_filter.sv
+- dir::../../../rtl/common_cells/cdc_fifo_2phase.sv
+- dir::../../../rtl/common_cells/clk_mux_glitch_free.sv
+- dir::../../../rtl/common_cells/counter.sv
+- dir::../../../rtl/common_cells/ecc_decode.sv
+- dir::../../../rtl/common_cells/ecc_encode.sv
+- dir::../../../rtl/common_cells/edge_detect.sv
+- dir::../../../rtl/common_cells/lzc.sv
+- dir::../../../rtl/common_cells/max_counter.sv
+- dir::../../../rtl/common_cells/rstgen.sv
+- dir::../../../rtl/common_cells/spill_register.sv
+- dir::../../../rtl/common_cells/stream_delay.sv
+- dir::../../../rtl/common_cells/stream_fifo.sv
+- dir::../../../rtl/common_cells/stream_fork_dynamic.sv
+- dir::../../../rtl/common_cells/stream_join.sv
+- dir::../../../rtl/common_cells/cdc_reset_ctrlr.sv
+- dir::../../../rtl/common_cells/cdc_fifo_gray.sv
+- dir::../../../rtl/common_cells/fall_through_register.sv
+- dir::../../../rtl/common_cells/id_queue.sv
+- dir::../../../rtl/common_cells/stream_to_mem.sv
+- dir::../../../rtl/common_cells/stream_arbiter_flushable.sv
+- dir::../../../rtl/common_cells/stream_fifo_optimal_wrap.sv
+- dir::../../../rtl/common_cells/stream_register.sv
+- dir::../../../rtl/common_cells/stream_xbar.sv
+- dir::../../../rtl/common_cells/cdc_fifo_gray_clearable.sv
+- dir::../../../rtl/common_cells/cdc_2phase_clearable.sv
+- dir::../../../rtl/common_cells/mem_to_banks_detailed.sv
+- dir::../../../rtl/common_cells/stream_arbiter.sv
+- dir::../../../rtl/common_cells/stream_omega_net.sv
+- dir::../../../rtl/common_cells/mem_to_banks.sv
+- dir::../../../rtl/apb/apb_pkg.sv
+- dir::../../../rtl/cve2/cve2_pkg.sv
+- dir::../../../rtl/cve2/cve2_alu.sv
+- dir::../../../rtl/cve2/cve2_branch_predict.sv
+- dir::../../../rtl/cve2/cve2_compressed_decoder.sv
+- dir::../../../rtl/cve2/cve2_controller.sv
+- dir::../../../rtl/cve2/cve2_counter.sv
+- dir::../../../rtl/cve2/cve2_csr.sv
+- dir::../../../rtl/cve2/cve2_decoder.sv
+- dir::../../../rtl/cve2/cve2_fetch_fifo.sv
+- dir::../../../rtl/cve2/cve2_load_store_unit.sv
+- dir::../../../rtl/cve2/cve2_multdiv_fast.sv
+- dir::../../../rtl/cve2/cve2_multdiv_slow.sv
+- dir::../../../rtl/cve2/cve2_pmp.sv
+- dir::../../../rtl/cve2/cve2_register_file_ff.sv
+- dir::../../../rtl/cve2/cve2_wb.sv
+- dir::../../../rtl/cve2/cve2_cs_registers.sv
+- dir::../../../rtl/cve2/cve2_ex_block.sv
+- dir::../../../rtl/cve2/cve2_id_stage.sv
+- dir::../../../rtl/cve2/cve2_prefetch_buffer.sv
+- dir::../../../rtl/cve2/cve2_if_stage.sv
+- dir::../../../rtl/cve2/cve2_core.sv
+- dir::../../../rtl/tc_clk.sv
+- dir::../../../rtl/tc_sram_impl.sv
+- dir::./core_wrap.sv
+
+LINTER_VLT: dir::./verilator_cfg.vlt
+
+VERILOG_DEFINES: [FUNCTIONAL]
+
+# Enable plugin for better SystemVerilog support
+USE_SLANG: True
+SLANG_ARGUMENTS: ['--compat-mode','--allow-use-before-declare','--ignore-unknown-modules']
+
+# Valid values are AREA 0-3 and DELAY 0-4
+# DELAY 4 = fastest, but largest area
+# AREA 3 = slowest, but smallest area
+SYNTH_STRATEGY: DELAY 4
+
+# SDC files
+PNR_SDC_FILE: dir::constraints_cve2.sdc
+SIGNOFF_SDC_FILE: dir::constraints_cve2.sdc
+FALLBACK_SDC: dir::constraints_cve2.sdc
+
+# Clock
+CLOCK_PORT: clk_i
+CLOCK_NET: clk_i
+CLOCK_PERIOD: 10 # in ns == 100 MHz
+
+# Floorplan
+DIE_AREA: [0, 0, 1300, 650]
+IO_PIN_ORDER_CFG: dir::pin_order.cfg
+FP_SIZING: absolute
+
+# PDN
+PDN_MULTILAYER: False
+VDD_NETS: ["VDD"]
+GND_NETS: ["VSS"]
+VERILOG_POWER_DEFINE: "USE_POWER_PINS"
+
+# Placement 
+PL_TARGET_DENSITY_PCT: 55
+PL_TIMING_DRIVEN: True
+PL_ROUTABILITY_DRIVEN: True
+PL_ROUTABILITY_OVERFLOW_THRESHOLD: 0.3
+PL_OPTIMIZE_MIRRORING: True
+
+# CTS
+RUN_CTS: true
+CTS_ROOT_BUFFER: sg13g2_buf_8
+CTS_CLK_BUFFERS: ["sg13g2_buf_2","sg13g2_buf_4","sg13g2_buf_8","sg13g2_buf_16"]
+
+# Routing
+GRT_ALLOW_CONGESTION: true
+GRT_ANTENNA_REPAIR_MARGIN: 30
+RT_MAX_LAYER: Metal5
+RT_CLOCK_MIN_LAYER: Metal1
+RT_CLOCK_MAX_LAYER: Metal5
+# Potentially leave some antennas after DRT to avoid pin access error bug
+DRT_ANTENNA_REPAIR_ITERS: 0
+
+# Timing
+RUN_POST_CTS_RESIZER_TIMING: True
+RUN_POST_GRT_RESIZER_TIMING: True
+# Fix setup violations
+PL_RESIZER_SETUP_REPAIR_TNS_PCT: 100
+PL_RESIZER_SETUP_SLACK_MARGIN: 1.00
+PL_RESIZER_SETUP_MAX_BUFFER_PCT: 100
+GRT_RESIZER_SETUP_REPAIR_TNS_PCT: 100
+GRT_RESIZER_SETUP_SLACK_MARGIN: 0.95
+GRT_RESIZER_SETUP_MAX_BUFFER_PCT: 100
+# Fix hold violations
+PL_RESIZER_HOLD_REPAIR_TNS_PCT: 100
+PL_RESIZER_HOLD_SLACK_MARGIN: 0.1
+GRT_RESIZER_HOLD_SLACK_MARGIN: 0.05
+
+RUN_MAGIC_DRC: true
