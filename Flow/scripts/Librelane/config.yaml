@@ -37,6 +37,7 @@ PDK_ROOT: dir::../OSEDA/ihp13/pdk
 
 PDK: ihp-sg13g2
 
+# Synthesis
 DESIGN_NAME: croc_chip
 VERILOG_INCLUDE_DIRS:
 - dir::../../../rtl/apb/include
@@ -193,8 +194,8 @@ VERILOG_FILES:
 - dir::../../../rtl/riscv-dbg/dm_top.sv
 - dir::../../../rtl/riscv-dbg/dmi_jtag.sv
 - dir::../../../rtl/riscv-dbg/dm_obi_top.sv
-- dir::../OSEDA/ihp13/tc_clk.sv
-- dir::../OSEDA/ihp13/tc_sram_impl.sv
+- dir::../../../rtl/tc_clk.sv
+- dir::../../../rtl/tc_sram_impl.sv
 - dir::../../../rtl/croc_pkg.sv
 - dir::../../../rtl/user_pkg.sv
 - dir::../../../rtl/soc_ctrl/soc_ctrl_regs_pkg.sv
@@ -245,9 +246,8 @@ SYNTH_KEEP_HIERARCHY_MODULES: [
 ]
 
 SLANG_ARGUMENTS: ['--compat-mode','--keep-hierarchy','--allow-use-before-declare','--ignore-unknown-modules']
-
-# Slightly smaller file sizes
-PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+SYNTH_STRATEGY: DELAY 4
+SYNTH_SIZING: True
 
 # Specify the pad instances for the padring
 PAD_SOUTH: [
@@ -326,38 +326,82 @@ PAD_WEST: [
     "pad_vdd0"
 ]
 
-
-# SDC files
-PNR_SDC_FILE: dir::./src/constraints_librelane.sdc
-SIGNOFF_SDC_FILE: dir::./src/constraints_librelane.sdc
-FALLBACK_SDC: dir::./src/constraints_librelane.sdc
-
-# Power / ground nets
-VDD_NETS:
-- VDD
-GND_NETS:
-- VSS
+# Constraints
+PNR_SDC_FILE: dir::./constraints_librelane.sdc
+SIGNOFF_SDC_FILE: dir::./constraints_librelane.sdc
+FALLBACK_SDC: dir::./constraints_librelane.sdc
+CLOCK_UNCERTAINTY_CONSTRAINT: 0.1
+CLOCK_TRANSITION_CONSTRAINT: 0.2
 
 # Clock
 CLOCK_PORT: [clk_i, ref_clk_i, jtag_tck_i]
 CLOCK_NET: [pad_clk_i/p2c, pad_ref_clk_i/p2c, pad_jtag_tck_i/p2c]
-
-CLOCK_PERIOD: 10
+CLOCK_PERIOD: 16 # 62.5Mhz
 
 # Floorplanning
 FP_SIZING: absolute
-# 2000umx2000um including 42um
-# for the sealring on all sides
 DIE_AREA: [0, 0, 2000, 2000]
-CORE_AREA: [292, 292, 1708, 1708]
+CORE_AREA: [365, 365, 1635, 1635]
+FP_MACRO_HORIZONTAL_HALO: 2
+FP_MACRO_VERTICAL_HALO: 2
 
-# Increase for more logic
-# on your die
-PL_TARGET_DENSITY_PCT: 55
-GRT_ALLOW_CONGESTION: true
+# Placement
+PL_TARGET_DENSITY_PCT: 60
+FP_CORE_UTIL: 60
+PL_TIMING_DRIVEN: True
+PL_ROUTABILITY_DRIVEN: True
+PL_ROUTABILITY_OVERFLOW_THRESHOLD: 0.3
+PL_OPTIMIZE_MIRRORING: True
 
 # PDN
+VDD_NETS: ["VDD"]
+GND_NETS: ["VSS"]
+VERILOG_POWER_DEFINE: "USE_POWER_PINS"
+# Maximum metal width without slotting: 30um
+PDN_CORE_RING_VWIDTH: 15
+PDN_CORE_RING_HWIDTH: 15
+# Ensure minimum spacing for long metals
+PDN_CORE_RING_VSPACING: 5
+PDN_CORE_RING_HSPACING: 5
+PDN_CORE_RING_CONNECT_TO_PADS: True
+PDN_ENABLE_PINS: False
 PDN_CORE_RING: True
+PDN_CFG: dir::pdn_cfg.tcl
+
+# CTS
+RUN_CTS: true
+CTS_ROOT_BUFFER: sg13g2_buf_8
+CTS_CLK_BUFFERS: ["sg13g2_buf_2","sg13g2_buf_4","sg13g2_buf_8","sg13g2_buf_16"]
+
+# Routing
+GRT_ALLOW_CONGESTION: true
+GRT_ANTENNA_REPAIR_MARGIN: 30
+# Potentially leave some antennas after DRT to avoid pin access error bug
+DRT_ANTENNA_REPAIR_ITERS: 0
+#GRT_LAYER_ADJUSTMENTS: [0, 0, 0, 0, 0, 0.20]
+RT_MAX_LAYER: TopMetal1
+RT_CLOCK_MIN_LAYER: Metal1
+RT_CLOCK_MAX_LAYER: TopMetal1
+
+# Timing
+RUN_POST_CTS_RESIZER_TIMING: True
+RUN_POST_GRT_RESIZER_TIMING: True
+# Fix setup violations
+PL_RESIZER_SETUP_REPAIR_TNS_PCT: 100
+PL_RESIZER_SETUP_SLACK_MARGIN: 1.20
+PL_RESIZER_SETUP_MAX_BUFFER_PCT: 100
+GRT_RESIZER_SETUP_REPAIR_TNS_PCT: 100
+GRT_RESIZER_SETUP_SLACK_MARGIN: 1.15
+GRT_RESIZER_SETUP_MAX_BUFFER_PCT: 100
+# Fix hold violations
+PL_RESIZER_HOLD_REPAIR_TNS_PCT: 100
+PL_RESIZER_HOLD_SLACK_MARGIN: 0.1
+GRT_RESIZER_HOLD_SLACK_MARGIN: 0.05
+# Fix cap and slew violations
+DESIGN_REPAIR_MAX_SLEW_PCT: 10 #30
+GRT_DESIGN_REPAIR_MAX_SLEW_PCT: 10 #30
+DESIGN_REPAIR_MAX_CAP_PCT: 10 #off
+#DESIGN_REPAIR_REMOVE_BUFFERS: True
 
 # Override bondpad name
 PAD_BONDPAD_NAME: bondpad_70x70_novias
@@ -372,15 +416,8 @@ EXTRA_LEFS:
 IGNORE_DISCONNECTED_MODULES:
 - bondpad_70x70_novias
 
-# Maximum metal width without slotting: 30um
-PDN_CORE_RING_VWIDTH: 15
-PDN_CORE_RING_HWIDTH: 15
-# Ensure minimum spacing for long metals
-PDN_CORE_RING_VSPACING: 5
-PDN_CORE_RING_HSPACING: 5
-
-PDN_CORE_RING_CONNECT_TO_PADS: True
-PDN_ENABLE_PINS: False
+# Slightly smaller file sizes
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
 
 # Because we have multiple power pads for one power domain
 MAGIC_EXT_UNIQUE: notopports
@@ -404,11 +441,11 @@ MACROS:
     instances:
       # Make sure to specify the SRAMs in pdn_cfg.tcl
       i_croc_soc/i_croc/gen_sram_bank[0].i_sram/gen_512x32xBx1.i_cut:
-        location: [600, 340]
-        orientation: S
-      i_croc_soc/i_croc/gen_sram_bank[1].i_sram/gen_512x32xBx1.i_cut:
-        location: [600, 1530]
+        location: [650, 1500.44]
         orientation: N
+      i_croc_soc/i_croc/gen_sram_bank[1].i_sram/gen_512x32xBx1.i_cut:
+        location: [650, 380.4]
+        orientation: S
 
 # This is an alternative method compared to
 # specifying the power connections in the RTL
@@ -417,9 +454,6 @@ PDN_MACRO_CONNECTIONS:
 - i_croc_soc/i_croc/gen_sram_bank\\\[0\\].i_sram/gen_512x32xBx1.i_cut VDD VSS VDD! VSS!
 - i_croc_soc/i_croc/gen_sram_bank\\\[1\\].i_sram/gen_512x32xBx1.i_cut VDD VSS VDDARRAY! VSS!
 - i_croc_soc/i_croc/gen_sram_bank\\\[1\\].i_sram/gen_512x32xBx1.i_cut VDD VSS VDD! VSS!
-
-# Custom PDN config to connect to SRAMs
-PDN_CFG: dir::pdn_cfg.tcl
 
 KLAYOUT_SEALRING_SCRIPT: dir::sealring.py
 

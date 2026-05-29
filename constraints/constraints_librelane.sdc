@@ -1,17 +1,8 @@
-# Copyright 2024 ETH Zurich and University of Bologna.
-# Solderpad Hardware License, Version 0.51, see LICENSE for details.
-# SPDX-License-Identifier: SHL-0.51
-
-# Authors:
-# - Philippe Sauter <phsauter@iis.ee.ethz.ch>
-
-# Backend constraints
-
 ############
 ## Global ##
 ############
 
-source src/instances.tcl
+source instances.tcl
 
 
 #############################
@@ -20,7 +11,7 @@ source src/instances.tcl
 
 # As a default, drive multiple GPIO pads and be driven by one.
 # accomodate for driving up to 2 74HC pads plus a 5pF trace
-set_load [expr 2 * 5.0 + 5.0] [all_outputs]
+set_load 10 [all_outputs]
 set_driving_cell [all_inputs] -lib_cell sg13g2_IOPadOut16mA -pin pad
 
 
@@ -29,8 +20,7 @@ set_driving_cell [all_inputs] -lib_cell sg13g2_IOPadOut16mA -pin pad
 ##################
 puts "Clocks..."
 
-# We target 100 MHz
-set TCK_SYS 10.0
+set TCK_SYS $::env(CLOCK_PERIOD)
 create_clock -name clk_sys -period $TCK_SYS [get_ports clk_i]
 
 set TCK_JTG 25.0
@@ -55,8 +45,8 @@ set_clock_groups -asynchronous -name clk_groups_async \
 
 # We set reasonable uncertainties in their transistion timing
 # and transition (rise/fall) times for all clocks (ns)
-set_clock_uncertainty 0.1 [all_clocks]
-set_clock_transition  0.2 [all_clocks]
+set_clock_uncertainty $::env(CLOCK_UNCERTAINTY_CONSTRAINT) [all_clocks]
+set_clock_transition $::env(CLOCK_TRANSITION_CONSTRAINT) [all_clocks]
 
 
 ####################
