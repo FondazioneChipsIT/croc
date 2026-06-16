@@ -199,14 +199,28 @@ add_pdn_connect \
 # SRAMs macros
 
 define_pdn_grid \
-    -cells "RM_IHPSG13_1P_256x64_c2_bm_bist" \
     -macro \
-    -name sram_WE \
+    -cells "RM_IHPSG13_1P_256x64_c2_bm_bist" \
+    -name sram_NS \
+    -starts_with POWER
+
+add_pdn_stripe \
+    -grid sram_NS \
+    -layer Metal5 \
+    -width 2.81 \
+    -pitch 11.24 \
+    -offset 2.81 \
+    -spacing 2.81 \
+    -nets "VSS VDD" \
     -starts_with POWER
 
 add_pdn_connect \
-    -grid sram_WE \
-    -layers "Metal4 TopMetal1"
+    -grid sram_NS \
+    -layers "Metal4 Metal5"
+
+add_pdn_connect \
+    -grid sram_NS \
+    -layers "Metal5 TopMetal1"
 
 # CVE2 macro
 
