@@ -19,21 +19,15 @@ meta:
     #Checker.KLayoutAntenna: null
 
     # Disable KLayout density check
-    #KLayout.Density: null
-    #Checker.KLayoutDensity: null
-    
-    # Save time
-    #OpenROAD.IRDropReport: null
-    #KLayout.XOR: null
-    #Netgen.LVS: null
-    #Checker.LVS: null
+    KLayout.Density: null
+    Checker.KLayoutDensity: null
 
     # Use Magic.Filler instead of KLayout.Filler
     # This can help in some cases where the target
     # density cannot be met using KLayout.
     # KLayout.Filler: Magic.Filler
 
-PDK_ROOT: dir::../OSEDA/ihp13/pdk
+PDK_ROOT: /foss/pdks
 
 PDK: ihp-sg13g2
 
@@ -224,6 +218,13 @@ SLANG_ARGUMENTS: ['--compat-mode','--keep-hierarchy','--allow-use-before-declare
 SYNTH_STRATEGY: DELAY 4
 SYNTH_SIZING: True
 
+# Constraints
+PNR_SDC_FILE: dir::./constraints_librelane.sdc
+SIGNOFF_SDC_FILE: dir::./constraints_librelane.sdc
+FALLBACK_SDC: dir::./constraints_librelane.sdc
+CLOCK_UNCERTAINTY_CONSTRAINT: 0.1
+CLOCK_TRANSITION_CONSTRAINT: 0.2
+
 # Specify the pad instances for the padring
 PAD_SOUTH: [
     "pad_vssio1",
@@ -301,13 +302,6 @@ PAD_WEST: [
     "pad_vdd0"
 ]
 
-# Constraints
-PNR_SDC_FILE: dir::./constraints_librelane.sdc
-SIGNOFF_SDC_FILE: dir::./constraints_librelane.sdc
-FALLBACK_SDC: dir::./constraints_librelane.sdc
-CLOCK_UNCERTAINTY_CONSTRAINT: 0.1
-CLOCK_TRANSITION_CONSTRAINT: 0.2
-
 # Clock
 CLOCK_PORT: [clk_i, ref_clk_i, jtag_tck_i]
 CLOCK_NET: [pad_clk_i/p2c, pad_ref_clk_i/p2c, pad_jtag_tck_i/p2c]
@@ -319,12 +313,6 @@ DIE_AREA: [0, 0, 2000, 2000]
 CORE_AREA: [365, 365, 1635, 1635]
 FP_MACRO_HORIZONTAL_HALO: 2
 FP_MACRO_VERTICAL_HALO: 2
-
-# Placement
-FP_CORE_UTIL: 50
-PL_TIMING_DRIVEN: True
-PL_ROUTABILITY_DRIVEN: True
-PL_ROUTABILITY_OVERFLOW_THRESHOLD: 0.3
 
 # PDN
 VDD_NETS: ["VDD"]
@@ -341,6 +329,12 @@ PDN_ENABLE_PINS: False
 PDN_CORE_RING: True
 PDN_CFG: dir::pdn_cfg.tcl
 
+# Placement
+PL_TARGET_DENSITY_PCT: 65
+PL_TIMING_DRIVEN: True
+PL_ROUTABILITY_DRIVEN: True
+PL_ROUTABILITY_OVERFLOW_THRESHOLD: 0.3
+
 # CTS
 RUN_CTS: true
 CTS_ROOT_BUFFER: sg13g2_buf_8
@@ -353,6 +347,9 @@ GRT_ANTENNA_REPAIR_MARGIN: 30
 DRT_ANTENNA_REPAIR_ITERS: 0
 RT_MAX_LAYER: TopMetal1
 RT_CLOCK_MAX_LAYER: TopMetal1
+
+# Save time
+RUN_MAGIC_DRC: False
 
 # Timing
 RUN_POST_CTS_RESIZER_TIMING: True
@@ -395,6 +392,24 @@ PRIMARY_GDSII_STREAMOUT_TOOL: klayout
 MAGIC_EXT_UNIQUE: notopports
 
 MACROS:
+  core_wrap:
+    gds:
+      - dir::./cve2_macro/final/gds/core_wrap.gds
+    lef:
+      - dir::./cve2_macro/final/lef/core_wrap.lef
+    vh:
+      - dir::./cve2_macro/final/vh/core_wrap.vh
+    lib:
+      "*_typ_1p20V_25C":
+        - dir::./cve2_macro/final/lib/nom_typ_1p20V_25C/core_wrap__nom_typ_1p20V_25C.lib
+      "*_fast_1p32V_m40C":
+        - dir::./cve2_macro/final/lib/nom_fast_1p32V_m40C/core_wrap__nom_fast_1p32V_m40C.lib
+      "*_slow_1p08V_125C":
+        - dir::./cve2_macro/final/lib/nom_slow_1p08V_125C/core_wrap__nom_slow_1p08V_125C.lib
+    instances:
+      i_croc_soc/i_croc/i_core_wrap:
+        location: [630, 965]
+        orientation: N
   RM_IHPSG13_1P_256x64_c2_bm_bist:
     gds:
       - pdk_dir::libs.ref/sg13g2_sram/gds/RM_IHPSG13_1P_256x64_c2_bm_bist.gds
@@ -418,24 +433,6 @@ MACROS:
       i_croc_soc/i_croc/gen_sram_bank[1].i_sram/gen_512x32xBx1.i_cut:
         location: [790, 390]
         orientation: S
-  core_wrap:
-    gds:
-      - dir::./cve2_macro/final/gds/core_wrap.gds
-    lef:
-      - dir::./cve2_macro/final/lef/core_wrap.lef
-    vh:
-      - dir::./cve2_macro/final/vh/core_wrap.vh
-    lib:
-      "*_typ_1p20V_25C":
-        - dir::./cve2_macro/final/lib/nom_typ_1p20V_25C/core_wrap__nom_typ_1p20V_25C.lib
-      "*_fast_1p32V_m40C":
-        - dir::./cve2_macro/final/lib/nom_fast_1p32V_m40C/core_wrap__nom_fast_1p32V_m40C.lib
-      "*_slow_1p08V_125C":
-        - dir::./cve2_macro/final/lib/nom_slow_1p08V_125C/core_wrap__nom_slow_1p08V_125C.lib
-    instances:
-      i_croc_soc/i_croc/i_core_wrap:
-        location: [630, 970]
-        orientation: N
 
 # This is an alternative method compared to
 # specifying the power connections in the RTL

@@ -6,8 +6,7 @@ meta:
     # Magic reports some overlaps which can be ignored
     Checker.IllegalOverlap: null
 
-PDK_ROOT: dir::../../OSEDA/ihp13/pdk
-
+PDK_ROOT: /foss/pdks
 PDK: ihp-sg13g2
 
 DESIGN_NAME: core_wrap
@@ -145,7 +144,7 @@ FALLBACK_SDC: dir::constraints_cve2.sdc
 
 # Clock
 CLOCK_PORT: clk_i
-CLOCK_PERIOD: 13 # 76.9 MHz
+CLOCK_PERIOD: 14 # 71 MHz
 CLOCK_UNCERTAINTY_CONSTRAINT: 0.1
 CLOCK_TRANSITION_CONSTRAINT: 0.2
 
@@ -154,6 +153,8 @@ DIE_AREA: [0, 0, 950, 470]
 IO_PIN_ORDER_CFG: dir::pin_order.cfg
 FP_SIZING: absolute
 PDN_MULTILAYER: False
+VDD_NETS: ["VDD"]
+GND_NETS: ["VSS"]
 
 # Placement 
 FP_CORE_UTIL: 60
@@ -169,8 +170,8 @@ CTS_CLK_BUFFERS: ["sg13g2_buf_2","sg13g2_buf_4","sg13g2_buf_8","sg13g2_buf_16"]
 # Routing
 GRT_ALLOW_CONGESTION: true
 GRT_ANTENNA_REPAIR_MARGIN: 30
-RT_MAX_LAYER: TopMetal1
-RT_CLOCK_MAX_LAYER: TopMetal1
+RT_MAX_LAYER: Metal5
+RT_CLOCK_MAX_LAYER: Metal5
 # Potentially leave some antennas after DRT to avoid pin access error bug
 DRT_ANTENNA_REPAIR_ITERS: 0
 
