@@ -1,4 +1,0 @@
-`verilator_config
-// Disable WIDTH warnings globally
-lint_off -rule ASSIGNIN
-
