@@ -6,26 +6,10 @@ meta:
     # Magic reports some overlaps which can be ignored
     Checker.IllegalOverlap: null
 
-    # Disable KLayout DRC
-    #KLayout.DRC: null
-    #Checker.KLayoutDRC: null
-
-    # Disable magic DRC
-    #Magic.DRC: null
-    #Checker.MagicDRC: null
-
-    # Disable KLayout antenna check
-    #KLayout.Antenna: null
-    #Checker.KLayoutAntenna: null
-
-    # Disable KLayout density check
+    # Disable KLayout density and filler to save memory
     KLayout.Density: null
     Checker.KLayoutDensity: null
-
-    # Use Magic.Filler instead of KLayout.Filler
-    # This can help in some cases where the target
-    # density cannot be met using KLayout.
-    # KLayout.Filler: Magic.Filler
+    KLayout.Filler: null
 
 PDK_ROOT: /foss/pdks
 
@@ -347,6 +331,7 @@ GRT_ANTENNA_REPAIR_MARGIN: 30
 DRT_ANTENNA_REPAIR_ITERS: 0
 RT_MAX_LAYER: TopMetal1
 RT_CLOCK_MAX_LAYER: TopMetal1
+DRT_THREADS: 2
 
 # Save time
 RUN_MAGIC_DRC: False
@@ -444,6 +429,14 @@ PDN_MACRO_CONNECTIONS:
 - i_croc_soc/i_croc/i_core_wrap VDD VSS VDD! VSS!
 
 KLAYOUT_SEALRING_SCRIPT: dir::sealring.py
+
+# Save memory
+KLAYOUT_DRC_THREADS: 2
+KLAYOUT_DRC_OPTIONS:
+  no_recommended: true
+  run_mode: deep
+  threads: 2
+  no_angle: true
 
 MAGIC_GDS_FLATGLOB:
  # For DRC of SRAM macros

@@ -73,7 +73,7 @@ build_verilator_rtl() {
         -Wno-WIDTHCONCAT \
         -Wno-ASCRANGE \
         --binary \
-        -j 0 \
+        -j 2 \
         --timing \
         --autoflush \
         --trace-fst \
@@ -102,7 +102,7 @@ build_verilator_postpnr() {
         -Wno-WIDTHCONCAT \
         -Wno-ASCRANGE \
         --binary \
-        -j 0 \
+        -j 2 \
         --timing \
         --autoflush \
         --trace-threads 2 \
